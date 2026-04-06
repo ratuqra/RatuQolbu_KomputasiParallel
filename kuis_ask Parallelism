@@ -1,0 +1,42 @@
+import multiprocessing 
+import time
+import os 
+
+def task_catat_order(pelanggan):
+    print(f"[Proses {os.getpid()}] sedang mencatat orderan atas nama:{pelanggan}")
+    time.sleep(2)
+    print(f"[Selesai]Orderan atas nama {pelanggan} telah masuk sistem.")
+
+def task_cuci_pakaian (berat):
+    print(f"[Proses {os.getpid()}] sedang mencuci pakaian dengan berat {berat} kg")
+    time.sleep(4)
+    print(f"[Selesai] Pakaian dengan berat {berat} kg telah selesai dicuci.")
+
+def task_setrika_pakaian(jenis):
+    print(f"[Proses {os.getpid()}] sedang menyetrika pakaian jenis {jenis}")
+    time.sleep(3)
+    print(f"[Selesai] Pakaian jenis {jenis} telah selesai disetrika.")
+
+def task_kemas_pakaian(id_order):
+    print(f"[Proses {os.getpid()}] sedang mengemas pakaian order ID: {id_order}")
+    time.sleep(1)
+    print(f"[Selesai] order {id_order} siap di ambil pelanggan.")
+
+if __name__ == "__main__":
+    print("=== Sistem Laundry  Parallel (152024151) ===\n")
+    p1 = multiprocessing.Process(target=task_catat_order, args=("Sabrina",))
+    p2 = multiprocessing.Process(target=task_cuci_pakaian, args=(5,))
+    p3 = multiprocessing.Process(target=task_setrika_pakaian, args=("Kemeja",))
+    p4 = multiprocessing.Process(target=task_kemas_pakaian, args=("LND_001",))
+
+    p1.start()
+    p2.start()
+    p3.start()
+    p4.start()
+
+    p1.join()
+    p2.join()
+    p3.join()
+    p4.join()
+
+    print("\nSemua proses telah selesai. Pelanggan dapat mengambil pakaian mereka.")
